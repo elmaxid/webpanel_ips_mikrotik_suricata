@@ -1,0 +1,53 @@
+WebPanel for Manager Alerts Rules for IPS MikroTik Suricata:
+
+This is the WebPanel for Manager Alerts Rules of IPS MikroTik Suricata project
+
+https://github.com/elmaxid/ips-mikrotik-suricata
+
+Changelog:
+
+13 April 17: v1.0
+
+* Initial Version
+
+Requeriment:
+
+* ips-mikrotik-suricata Working
+* PHP5 with support Mysql and GeoLib
+* GIT
+
+** Features
+
+* Panel to monitor the active alerts blocked and update the rules for new patterns.
+
+
+Instalation
+
+Check you have the requeriments:
+
+apt-get install php5-geoip php5-mysql
+
+Once we have IPS-MikroTik-Suricata working and running on our network, the next step is the instalation of panel :
+
+--
+To install, Clone the repository and copy to /www/html/snorby/public/rules or another you choice
+
+cd /www/html/snorby/public/
+
+git clone https://github.com/elmaxid/webpanel_ips_mikrotik_suricata.git
+
+mv webpanel_ips_mikrotik_suricata rules
+
+-- to Config
+
+* Modify for the new DB schema 
+
+mysql -u username -p snorby < schema.sql
+
+
+* Use it:
+
+Enter to http://IP_HOST/rules
+
+----
+ 
