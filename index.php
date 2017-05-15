@@ -425,9 +425,12 @@ function show_form_edit_rule( $id = NULL , $sid = NULL ) { //SID para importar r
     return $str;
 }
 
+<<<<<<< HEAD
 
  
 
+=======
+>>>>>>> 36c7e8bf18b33afbbaae29febba34e7b28630d38
 /**
  * [get_update_rules Get the last update rule from cloud]
  * @return [type] [description]
@@ -450,9 +453,16 @@ function get_update_rules( ) {
     foreach ( $update_array as $value ) {        
 
         // if ( array_search( $value[ sig_name ], array_column( $db_rules, 'sig_name' ) ) ) {
+<<<<<<< HEAD
         // if ( array_search_partial(array_column( $db_rules, 'sig_name' ),  $value[ sig_name ]  ) ) {
         if ( partial_search_array_special(array_column( $db_rules, 'sig_name' ),  $value[ sig_name ]  ) ) {
              $value_tmp = '';
+=======
+        if ( array_search_partial(array_column( $db_rules, 'sig_name' ),  $value[ sig_name ]  ) ) {
+            // if (in_array($value[sig_name], $db_rules)) {
+            // $str.="EXISTE ".$value[sig_name]."<br>";
+            $value_tmp = '';
+>>>>>>> 36c7e8bf18b33afbbaae29febba34e7b28630d38
         } else {
             $value_tmp = "$value[sig_name]##$value[src_or_dst]##$value[timeout]";
             $str .= " 
@@ -724,7 +734,11 @@ function show_popular_alerts( $s=NULL) {
                                     <tbody>   ';
     while ( $row = $result->fetch_assoc() ) {
 
+<<<<<<< HEAD
                 if ( partial_search_array_special(array_column( $alert_to_block, 'sig_name' ),  $row[ sig_name ]  ) ) {
+=======
+                if ( array_search_partial(array_column( $alert_to_block, 'sig_name' ),  $row[ sig_name ]  ) ) {
+>>>>>>> 36c7e8bf18b33afbbaae29febba34e7b28630d38
                         $str_tr_color="class='' ";
                         $str_action_tmp="";
                     }else {

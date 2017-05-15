@@ -11,6 +11,7 @@ function array_search_partial( $arr, $keyword ) {
     } //$arr as $index => $string
 }
 
+<<<<<<< HEAD
 /**
  * [partial_search_array Busca si existe parte de un string en un array]
  * @param  [type] $haystack [description]
@@ -52,6 +53,8 @@ function partial_search_array_special($haystack,$needle) {
 }
 
 
+=======
+>>>>>>> 36c7e8bf18b33afbbaae29febba34e7b28630d38
 
 /**
  * [get_total_rules_active Get the total record of active rules]
