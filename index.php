@@ -440,9 +440,12 @@ function show_form_edit_rule( $id = NULL, $sid = NULL ) { //SID para importar re
     return $str;
 }
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 36c7e8bf18b33afbbaae29febba34e7b28630d38
 /**
  * [get_update_rules Get the last update rule from cloud]
  * @return [type] [description]
@@ -465,11 +468,24 @@ function get_update_rules( ) {
     foreach ( $update_array as $value ) {
         
         // if ( array_search( $value[ sig_name ], array_column( $db_rules, 'sig_name' ) ) ) {
+<<<<<<< HEAD
         // if ( array_search_partial(array_column( $db_rules, 'sig_name' ),  $value[ sig_name ]  ) ) {
+<<<<<<< HEAD
         if ( partial_search_array_special( array_column( $db_rules, 'sig_name' ), $value[ sig_name ] ) ) {
             $value_tmp = '';
         } //partial_search_array_special( array_column( $db_rules, 'sig_name' ), $value[ sig_name ] )
         else {
+=======
+        if ( partial_search_array_special(array_column( $db_rules, 'sig_name' ),  $value[ sig_name ]  ) ) {
+             $value_tmp = '';
+=======
+        if ( array_search_partial(array_column( $db_rules, 'sig_name' ),  $value[ sig_name ]  ) ) {
+            // if (in_array($value[sig_name], $db_rules)) {
+            // $str.="EXISTE ".$value[sig_name]."<br>";
+            $value_tmp = '';
+>>>>>>> 36c7e8bf18b33afbbaae29febba34e7b28630d38
+        } else {
+>>>>>>> 5bc4dca68471f2edf91a3d1e6d2d2556bfd51d29
             $value_tmp = "$value[sig_name]##$value[src_or_dst]##$value[timeout]";
             $str .= " 
 
@@ -742,6 +758,7 @@ function show_popular_alerts( $s = NULL ) {
                                     </thead>
                                     <tbody>   ';
     while ( $row = $result->fetch_assoc() ) {
+<<<<<<< HEAD
         
         if ( partial_search_array_special( array_column( $alert_to_block, 'sig_name' ), $row[ sig_name ] ) ) {
             $str_tr_color   = "class='' ";
@@ -754,6 +771,23 @@ function show_popular_alerts( $s = NULL ) {
         }
         $str .= '<tr ' . $str_tr_color . '> <td><a target=_blank href=http://doc.emergingthreats.net/' . $row[ 'sig_sid' ] . '>' . $row[ 'sig_sid' ] . '</a> / ' . $row[ 'sig_id' ] . ' ' . '</td> <td>' . $row[ 'sig_name' ] . '</td> <td>' . $row[ 'total' ] . '</td><td>' . $str_action_tmp . '</td></tr>';
     } //$row = $result->fetch_assoc()
+=======
+
+<<<<<<< HEAD
+                if ( partial_search_array_special(array_column( $alert_to_block, 'sig_name' ),  $row[ sig_name ]  ) ) {
+=======
+                if ( array_search_partial(array_column( $alert_to_block, 'sig_name' ),  $row[ sig_name ]  ) ) {
+>>>>>>> 36c7e8bf18b33afbbaae29febba34e7b28630d38
+                        $str_tr_color="class='' ";
+                        $str_action_tmp="";
+                    }else {
+                        $str_tr_color="class='warning' title='No Match with actual rules' rel=tooltip ";
+                        $str_action_tmp=' <a onclick="get_data(\'?c=import_rule&sid=' . $row[ 'sig_sid' ] . '\',\'central\');"  href=# >  <i class="fa fa-plus"></i> </a>  ';
+
+                    }
+         $str .= '<tr '.$str_tr_color.'> <td><a target=_blank href=http://doc.emergingthreats.net/' . $row[ 'sig_sid' ] . '>' . $row[ 'sig_sid' ] . '</a> / ' . $row[ 'sig_id' ] . ' ' .  '</td> <td>' . $row[ 'sig_name' ] . '</td> <td>' . $row[ 'total' ] . '</td><td>'.$str_action_tmp.'</td></tr>';
+    }
+>>>>>>> 5bc4dca68471f2edf91a3d1e6d2d2556bfd51d29
     $str .= '
                                     </tbody>
                                    </table>
