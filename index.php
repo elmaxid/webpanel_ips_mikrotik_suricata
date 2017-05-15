@@ -44,7 +44,6 @@ if ( isset( $_REQUEST[ 's' ] ) )
     $search = trim( $_REQUEST[ 's' ] ); //search
 
 if ( isset( $_REQUEST[ 'updates_rules' ] ) )
-
     $updates_rules = $_REQUEST[ 'updates_rules' ]; //updates_rules
 if ( isset( $_REQUEST[ 'id' ] ) )
     $id = trim( $_REQUEST[ 'id' ] ); //id
@@ -72,11 +71,13 @@ if ( $cmd == "edit_rule_save" ) {
         $sql_query = "UPDATE sigs_to_block SET active='$active_tmp', sig_name='$sig_name', src_or_dst='$src_or_dst', timeout='$timeout' WHERE id=$id ;";
     if ( !$result = $db_->query( $sql_query ) ) {
         die( 'There was an error running the query [' . $db_->error . ']' );
-    } else {
+    } //!$result = $db_->query( $sql_query )
+    else {
         echo '<div class="alert alert-success"> <strong>OK Saved</strong> <i class="fa fa-refresh fa-spin"></i> Reloading... </div>';
     }
     exit;
-} elseif ( $cmd == "save_rule_db" ) { // Save the update rules to DB
+} //$cmd == "edit_rule_save"
+elseif ( $cmd == "save_rule_db" ) { // Save the update rules to DB
     //  echo "SAVE";
     // var_dump($updates_rules);
     foreach ( $updates_rules as $value ) {
@@ -88,15 +89,17 @@ if ( $cmd == "edit_rule_save" ) {
         if ( !$result = $db_->query( $sql_query ) ) {
             // die( 'There was an error running the query [' . $db_->error . ']' );
             echo $db_->error;
-        }
-    }
+        } //!$result = $db_->query( $sql_query )
+    } //$updates_rules as $value
     // echo show_rules_db(); 
     exit;
-} elseif ( $cmd == "list_rule" ) {
+} //$cmd == "save_rule_db"
+    elseif ( $cmd == "list_rule" ) {
     // echo "HOLA";
     echo show_active_rules_db();
     exit;
-} elseif ( $cmd == "delete" ) {
+} //$cmd == "list_rule"
+    elseif ( $cmd == "delete" ) {
     if ( !$id )
         return false;
     $SQL = "DELETE FROM sigs_to_block WHERE  id='$id'  ;";
@@ -106,36 +109,47 @@ if ( $cmd == "edit_rule_save" ) {
     mysqli_free_result( $result );
     echo show_active_rules_db(); //show again the list rules
     exit;
-} elseif ( $cmd == "add" ) {
+} //$cmd == "delete"
+    elseif ( $cmd == "add" ) {
     echo show_form_edit_rule();
     exit;
-} elseif ( $cmd == "import_rule" ) { //import rule
-    echo show_form_edit_rule(NULL,$sid);
+} //$cmd == "add"
+    elseif ( $cmd == "import_rule" ) { //import rule
+    echo show_form_edit_rule( NULL, $sid );
     exit;
-} elseif ( $cmd == "edit" ) {
+} //$cmd == "import_rule"
+    elseif ( $cmd == "edit" ) {
     echo show_form_edit_rule( $id );
     exit;
-} elseif ( $cmd == "update" ) {
+} //$cmd == "edit"
+    elseif ( $cmd == "update" ) {
     echo get_update_rules();
     exit;
-} elseif ( $cmd == "dashboard" ) {
+} //$cmd == "update"
+    elseif ( $cmd == "dashboard" ) {
     echo show_server_status();
     echo show_dashboard();
     exit;
-} elseif ( $cmd == "check_connect_router_API" ) {
+} //$cmd == "dashboard"
+    elseif ( $cmd == "check_connect_router_API" ) {
     echo check_connect_router_API();
     exit;
-}elseif ( $cmd == "alerts_popular" ) {
-    if ($search=="ALL") echo show_popular_alerts();
-    if ($search)echo show_popular_alerts($search);
-    else echo show_table_popular_alerts();
-
+} //$cmd == "check_connect_router_API"
+    elseif ( $cmd == "alerts_popular" ) {
+    if ( $search == "ALL" )
+        echo show_popular_alerts();
+    if ( $search )
+        echo show_popular_alerts( $search );
+    else
+        echo show_table_popular_alerts();
+    
     exit;
-}elseif ( $cmd == "view_event" ) {
-  echo show_table_ip_header(NULL,$cid);
-
+} //$cmd == "alerts_popular"
+    elseif ( $cmd == "view_event" ) {
+    echo show_table_ip_header( NULL, $cid );
+    
     exit;
-}
+} //$cmd == "view_event"
 ?>
 
 <!DOCTYPE html>
@@ -208,10 +222,10 @@ if ( $cmd == "edit_rule_save" ) {
 
                 <section class="tab-pane active fade in content">
                     <div id="central">
-                    <?php 
-                        echo show_server_status();
-                        echo show_dashboard();
-                        ?>
+                    <?php
+echo show_server_status();
+echo show_dashboard();
+?>
                     </div>
                 </section>
 
@@ -237,7 +251,7 @@ if ( $cmd == "edit_rule_save" ) {
 
 <?php
 
-function show_tooltip() {
+function show_tooltip( ) {
     return '  <script type="text/javascript"> $(function () {  $("[rel=\'tooltip\']").tooltip({html:true});  }); </script>';
 }
 function show_active_rules_db( ) {
@@ -268,7 +282,7 @@ function show_active_rules_db( ) {
     while ( $row = $result->fetch_assoc() ) {
         ( $row[ 'active' ] ) ? $color_str = 'success' : $color_str = 'info';
         $str .= '<tr><td><span class="label label-' . $color_str . '"><i class="fa fa-check"></i></span></td><td onclick="get_data(\'?c=edit&id=' . $row[ 'id' ] . '\',\'central\');" >' . $row[ 'sig_name' ] . '</td><td>' . $row[ 'src_or_dst' ] . '</td><td>' . $row[ 'timeout' ] . '</td><td> <a onclick="get_data(\'?c=edit&id=' . $row[ 'id' ] . '\',\'central\');"  href=# >  <i class="fa fa-edit"></i> </a> <a onclick="get_data(\'?c=delete&id=' . $row[ 'id' ] . '\',\'central\');"  href=# > <i class="fa fa-trash"></i></a></td></tr>';
-    }
+    } //$row = $result->fetch_assoc()
     $str .= '
                                     </tbody>
                                    </table>
@@ -300,12 +314,13 @@ function show_active_rules_db( ) {
                    </div>';
     return $str;
 }
-function show_form_edit_rule( $id = NULL , $sid = NULL ) { //SID para importar regla
+function show_form_edit_rule( $id = NULL, $sid = NULL ) { //SID para importar regla
     global $db_;
     if ( !$id ) {
         $new       = true;
         $str_input = '<input type=hidden name="id" value="new">';
-    } else {
+    } //!$id
+    else {
         $SQL = "SELECT * FROM sigs_to_block  WHERE id=$id LIMIT 1;";
         if ( !$result = $db_->query( $SQL ) ) {
             die( 'There was an error running the query [' . $db_->error . ']' );
@@ -317,24 +332,24 @@ function show_form_edit_rule( $id = NULL , $sid = NULL ) { //SID para importar r
         $str_timeout    = 'value="' . $row[ timeout ] . '"';
         ( $row[ 'active' ] == 1 ) ? $str_active = "checked" : $str_active = '';
     }
-
-    if ($sid) {
+    
+    if ( $sid ) {
         //get the info of signature
-        $info_signature=get_signature_info_db($sid);
-       // // 
-       //  echo var_dump($info_signature);
-       //  echo var_dump($info_header);
+        $info_signature = get_signature_info_db( $sid );
+        // // 
+        //  echo var_dump($info_signature);
+        //  echo var_dump($info_header);
         // $str.=show_table_ip_header($info_signature[cid]);
-        $str_input = '<input type=hidden name="id" value="new">';
-        $str_active = "checked"; //to active the option
-        $str.='<script>
-        $(\'#name\').val(\''.$info_signature[sig_name].'\');
+        $str_input      = '<input type=hidden name="id" value="new">';
+        $str_active     = "checked"; //to active the option
+        $str .= '<script>
+        $(\'#name\').val(\'' . $info_signature[ sig_name ] . '\');
         $("#helpBlock").html(\' <span  class="help-block">Check the correct IP SOURCE o DESTINATION to block.</span>\');
         </script>';
-        $str_sidebar=' <div class="col-xs-12 col-sm-4">
-                '.show_table_ip_header($sid).'
+        $str_sidebar = ' <div class="col-xs-12 col-sm-4">
+                ' . show_table_ip_header( $sid ) . '
                     </div>';
-    }
+    } //$sid
     $str .= '
                     <div class="col-xs-12 col-sm-8">
                         <div class="panel panel-default">
@@ -398,7 +413,7 @@ function show_form_edit_rule( $id = NULL , $sid = NULL ) { //SID para importar r
                             </div>
                         </div>
                     </div>
-                   '.$str_sidebar.'
+                   ' . $str_sidebar . '
                 <script type="text/javascript">
                         $(document).ready(function() {
                             $(\'#save_btn\').click(function(e) {                                 
@@ -426,7 +441,7 @@ function show_form_edit_rule( $id = NULL , $sid = NULL ) { //SID para importar r
 }
 
 
- 
+
 
 /**
  * [get_update_rules Get the last update rule from cloud]
@@ -447,13 +462,14 @@ function get_update_rules( ) {
             <div class="col-md-10">
            <form class="form-horizontal"  role="form" autocomplete=off  method="post" id="update_rules" >
             ';
-    foreach ( $update_array as $value ) {        
-
+    foreach ( $update_array as $value ) {
+        
         // if ( array_search( $value[ sig_name ], array_column( $db_rules, 'sig_name' ) ) ) {
         // if ( array_search_partial(array_column( $db_rules, 'sig_name' ),  $value[ sig_name ]  ) ) {
-        if ( partial_search_array_special(array_column( $db_rules, 'sig_name' ),  $value[ sig_name ]  ) ) {
-             $value_tmp = '';
-        } else {
+        if ( partial_search_array_special( array_column( $db_rules, 'sig_name' ), $value[ sig_name ] ) ) {
+            $value_tmp = '';
+        } //partial_search_array_special( array_column( $db_rules, 'sig_name' ), $value[ sig_name ] )
+        else {
             $value_tmp = "$value[sig_name]##$value[src_or_dst]##$value[timeout]";
             $str .= " 
 
@@ -463,7 +479,7 @@ function get_update_rules( ) {
                     </div>";
             //$str.="NUEVO ".$value[sig_name]."<br>";
         }
-    }
+    } //$update_array as $value
     $str .= '  <div class="form-group">
                                             <div class="col-sm-offset-3 col-sm-9">
                                                   <a onclick="get_data(\'?c=list_rule\',\'central\');" class="btn btn-default btn-lg"><i class="fa fa-backward"></i> Back</a>
@@ -514,7 +530,7 @@ function show_dashboard( ) {
         die( 'There was an error running the query [' . $db_->error . ']' );
     } //!$result = $db_->query( $SQL )
     // $count = $result->num_rows;
-    $count =get_total_rules_active();
+    $count = get_total_rules_active();
     $str .= ' <div class="row">
                        
                          
@@ -539,7 +555,7 @@ function show_dashboard( ) {
         <a  id="view_event" target=_blank href=# data-cid="index.php?c=view_event&cid=' . $row[ 'que_event_cid' ] . '" title="View Event" rel="tooltip" ><i class="fa fa-eye"></i></a>
 
         </small></td> </tr>';
-    }
+    } //$row = $result->fetch_assoc()
     $str .= '
                                     </tbody>
                                    </table>
@@ -610,14 +626,14 @@ function show_dashboard( ) {
         </div>
 
                    ';
-
-    $str.="<script>$('a#view_event').click(function(e){
+    
+    $str .= "<script>$('a#view_event').click(function(e){
     var anchor = this;
     $('#preview_event').modal({show:true});   
      $('#show_event').load($(anchor).attr('data-cid'));  
     return false;
     });</script>";
-    return $str.show_tooltip();
+    return $str . show_tooltip();
 }
 /**
  * [show_table_top_ten show tables with TOP TEN]
@@ -630,7 +646,8 @@ function show_table_top_ten( $type = '1' ) {
         $sql_query = "SELECT  inet_ntoa(que_ip_adr) as ip , count(*) as total FROM block_queue GROUP BY que_ip_adr
                     ORDER BY count(*) DESC LIMIT 10;";
         $str_th    = '  <th>Count</th> <th>IP Block</th>  <th>Country</th>';
-    } else {
+    } //$type == "1"
+    else {
         $sql_query = "SELECT  que_sig_name,que_sig_sid ,count(*) as total FROM block_queue GROUP BY que_sig_name 
                     ORDER BY count(*) DESC LIMIT 10;";
         $str_th    = '  <th>Count</th> <th>Alert</th>  <th>Sid</th>';
@@ -649,29 +666,30 @@ function show_table_top_ten( $type = '1' ) {
     while ( $row = $result->fetch_assoc() ) {
         if ( $type == "1" ) {
             $str .= '<tr><td><small class="label label-default">' . $row[ 'total' ] . '</small></td>  <td ><small>' . $row[ 'ip' ] . '</small></td> <td ><small>' . geoip_country_name_by_name( $row[ 'ip' ] ) . '</small></td> </tr>';
-        } else {
+        } //$type == "1"
+        else {
             $str .= '<tr><td><small class="label label-default">' . $row[ 'total' ] . '</small></td>  <td ><small>' . $row[ 'que_sig_name' ] . '</small></td> <td ><small><a target=_blank rel=tooltip title="View Rule Alert" href=http://doc.emergingthreats.net/' . $row[ 'que_sig_sid' ] . '>' . $row[ 'que_sig_sid' ] . '</a></small></td> </tr>';
         }
-    }
+    } //$row = $result->fetch_assoc()
     $str .= '
                                     </tbody>
                                    </table>';
-    return $str.show_tooltip() ;
+    return $str . show_tooltip();
 }
 
-function show_server_status(){
-
-    $data=obtiene_server_status();
-
+function show_server_status( ) {
+    
+    $data = obtiene_server_status();
+    
     // echo var_dump($data);
-    $str.='  <div class="row">
+    $str .= '  <div class="row">
                        
                         <div class="col-xs-12 col-sm-6">
                             <div class="panel panel-primary">
                                 <div class="panel-body">
-                                 <i class="fa fa-square"></i> Uptime  <strong class="lead">'.$data[server_uptime].'</strong>  &nbsp;&nbsp;
-                                  <i class="fa fa-square"></i>  Load Avr: <strong class="lead">'.$data[loadAvg].'</strong> &nbsp;&nbsp;
-                                  <i class="fa fa-square"></i>  MEM Free: <strong class="lead">'.$data[memPercent].'%</strong>  
+                                 <i class="fa fa-square"></i> Uptime  <strong class="lead">' . $data[ server_uptime ] . '</strong>  &nbsp;&nbsp;
+                                  <i class="fa fa-square"></i>  Load Avr: <strong class="lead">' . $data[ loadAvg ] . '</strong> &nbsp;&nbsp;
+                                  <i class="fa fa-square"></i>  MEM Free: <strong class="lead">' . $data[ memPercent ] . '%</strong>  
                                    
                                 </div>
                             </div>
@@ -680,10 +698,10 @@ function show_server_status(){
                         <div class="col-xs-12 col-sm-6">
                             <div class="panel panel-primary">
                                 <div class="panel-body">
-                                  <strong> Suricata IDS: </strong><span class="lead">'.check_service_running('ids').' </span> &nbsp;&nbsp;
-                                 <strong>  DB Daemon: </strong> <span class="lead">'.check_service_running('db').' </span>   &nbsp;&nbsp;
-                                <strong>   IPS Daemon: </strong> <span class="lead">'.check_service_running('ips').'  </span> &nbsp;&nbsp; 
-                                <strong>   Snorby: </strong> <span class="lead">'.check_service_running('snorby').' </span>  &nbsp;&nbsp;
+                                  <strong> Suricata IDS: </strong><span class="lead">' . check_service_running( 'ids' ) . ' </span> &nbsp;&nbsp;
+                                 <strong>  DB Daemon: </strong> <span class="lead">' . check_service_running( 'db' ) . ' </span>   &nbsp;&nbsp;
+                                <strong>   IPS Daemon: </strong> <span class="lead">' . check_service_running( 'ips' ) . '  </span> &nbsp;&nbsp; 
+                                <strong>   Snorby: </strong> <span class="lead">' . check_service_running( 'snorby' ) . ' </span>  &nbsp;&nbsp;
                                 <strong>   API: </strong> <span class="lead" id="check_connect_router_API"> <i class="fa fa-refresh fa-spin"></i> </span>  
 
                                 </div>
@@ -696,16 +714,17 @@ function show_server_status(){
                      
                        
                    </div>';
-                   return $str;
+    return $str;
 }
 
 /**
  * [show_popular_alerts Get popular alerts of today]
  * @return [type] [description]
  */
-function show_popular_alerts( $s=NULL) {
+function show_popular_alerts( $s = NULL ) {
     global $db_;
-    if (isset($s)) $str_sql="and s.sig_name like '%ET $s%' ";
+    if ( isset( $s ) )
+        $str_sql = "and s.sig_name like '%ET $s%' ";
     $SQL = "select sig_sid,sig_id, sig_name  as sig_name,count(*) as total from signature as s, event as e where s.sig_id=e.signature and date(e.timestamp)=date(now()) $str_sql group by sig_name order by total desc limit 300;";
     if ( !$result = $db_->query( $SQL ) ) {
         die( 'There was an error running the query [' . $db_->error . ']' );
@@ -713,8 +732,8 @@ function show_popular_alerts( $s=NULL) {
     $count = $result->num_rows;
     
     //get the actual alert to block
-    $alert_to_block= get_rules_db( );
-    $str.=' <div class="panel-body"> 
+    $alert_to_block = get_rules_db();
+    $str .= ' <div class="panel-body"> 
                                    <table class="table table-condensed table-hover">
                                     <thead>
                                         <tr>
@@ -723,28 +742,29 @@ function show_popular_alerts( $s=NULL) {
                                     </thead>
                                     <tbody>   ';
     while ( $row = $result->fetch_assoc() ) {
-
-                if ( partial_search_array_special(array_column( $alert_to_block, 'sig_name' ),  $row[ sig_name ]  ) ) {
-                        $str_tr_color="class='' ";
-                        $str_action_tmp="";
-                    }else {
-                        $str_tr_color="class='warning' title='No Match with actual rules' rel=tooltip ";
-                        $str_action_tmp=' <a onclick="get_data(\'?c=import_rule&sid=' . $row[ 'sig_sid' ] . '\',\'central\');"  href=# >  <i class="fa fa-plus"></i> </a>  ';
-
-                    }
-         $str .= '<tr '.$str_tr_color.'> <td><a target=_blank href=http://doc.emergingthreats.net/' . $row[ 'sig_sid' ] . '>' . $row[ 'sig_sid' ] . '</a> / ' . $row[ 'sig_id' ] . ' ' .  '</td> <td>' . $row[ 'sig_name' ] . '</td> <td>' . $row[ 'total' ] . '</td><td>'.$str_action_tmp.'</td></tr>';
-    }
+        
+        if ( partial_search_array_special( array_column( $alert_to_block, 'sig_name' ), $row[ sig_name ] ) ) {
+            $str_tr_color   = "class='' ";
+            $str_action_tmp = "";
+        } //partial_search_array_special( array_column( $alert_to_block, 'sig_name' ), $row[ sig_name ] )
+        else {
+            $str_tr_color   = "class='warning' title='No Match with actual rules' rel=tooltip ";
+            $str_action_tmp = ' <a onclick="get_data(\'?c=import_rule&sid=' . $row[ 'sig_sid' ] . '\',\'central\');"  href=# >  <i class="fa fa-plus"></i> </a>  ';
+            
+        }
+        $str .= '<tr ' . $str_tr_color . '> <td><a target=_blank href=http://doc.emergingthreats.net/' . $row[ 'sig_sid' ] . '>' . $row[ 'sig_sid' ] . '</a> / ' . $row[ 'sig_id' ] . ' ' . '</td> <td>' . $row[ 'sig_name' ] . '</td> <td>' . $row[ 'total' ] . '</td><td>' . $str_action_tmp . '</td></tr>';
+    } //$row = $result->fetch_assoc()
     $str .= '
                                     </tbody>
                                    </table>
                                </div>';
-
+    
     
     return $str;
 }
 
-function show_table_popular_alerts($s=NULL) {
-
+function show_table_popular_alerts( $s = NULL ) {
+    
     $str .= ' <div class="row">
                        
                          
@@ -767,7 +787,7 @@ function show_table_popular_alerts($s=NULL) {
                                   <option value="COMPROMISED">COMPROMISED</option>
                                   </select>
                                </div>
-                               <span id="table_alerts"> '.show_popular_alerts($s).'</span>
+                               <span id="table_alerts"> ' . show_popular_alerts( $s ) . '</span>
                            </div>
                        </div>
                        
@@ -777,36 +797,38 @@ function show_table_popular_alerts($s=NULL) {
                        
                    </div>';
     return $str;
-
+    
 }
 
-function show_table_ip_header($sid=NULL,$cid=NULL) {
-    if (!$sid) {
-        $cid_tmp=$cid;
-    } else {
-        $info_signature=get_signature_info_db($sid);
-        $cid_tmp=$info_signature['cid'];
-        $str_th_name=' <tr><th colspan="5">Name: <span class="text-center lead"> '.$info_signature['sig_name'].'</span></th></tr>';
+function show_table_ip_header( $sid = NULL, $cid = NULL ) {
+    if ( !$sid ) {
+        $cid_tmp = $cid;
+    } //!$sid
+    else {
+        $info_signature = get_signature_info_db( $sid );
+        $cid_tmp        = $info_signature[ 'cid' ];
+        $str_th_name    = ' <tr><th colspan="5">Name: <span class="text-center lead"> ' . $info_signature[ 'sig_name' ] . '</span></th></tr>';
     }
- $row=get_header_info_db($cid_tmp);
-  // echo var_dump($info_signature);
-   // echo var_dump($row);
-
-  if ($row['port']['udp_sport'])  {
-     $protocol="UDP";
-     $port_src=$row['port']['udp_sport'];
-     $port_dst=$row['port']['udp_dport'];
-  } else {
-    $protocol="TCP";
-    $port_src=$row['port']['tcp_sport'];
-    $port_dst=$row['port']['tcp_dport'];
-  }
-
-  
-    $str.='<div class="well table-responsive">
+    $row = get_header_info_db( $cid_tmp );
+    // echo var_dump($info_signature);
+    // echo var_dump($row);
+    
+    if ( $row[ 'port' ][ 'udp_sport' ] ) {
+        $protocol = "UDP";
+        $port_src = $row[ 'port' ][ 'udp_sport' ];
+        $port_dst = $row[ 'port' ][ 'udp_dport' ];
+    } //$row[ 'port' ][ 'udp_sport' ]
+    else {
+        $protocol = "TCP";
+        $port_src = $row[ 'port' ][ 'tcp_sport' ];
+        $port_dst = $row[ 'port' ][ 'tcp_dport' ];
+    }
+    
+    
+    $str .= '<div class="well table-responsive">
         <table class="table table-hover table-condensed">
             <thead>
-               '.$str_th_name.'
+               ' . $str_th_name . '
                 <tr>
                  <th>Protocol</th>   <th>IP Source</th>  <th>Port Src</th>  <th>IP Destination</th>  <th>Port Dst</th>
                 </tr>
@@ -814,7 +836,7 @@ function show_table_ip_header($sid=NULL,$cid=NULL) {
             <tbody>
 
                 <tr>
-                    <td>'.$protocol.'</td> <td>'.$row['packet']['ip_src'].'</td> <td>'.$port_src.'</td> <td>'.$row['packet']['ip_dst'].'</td> <td>'.$port_dst.'</td>
+                    <td>' . $protocol . '</td> <td>' . $row[ 'packet' ][ 'ip_src' ] . '</td> <td>' . $port_src . '</td> <td>' . $row[ 'packet' ][ 'ip_dst' ] . '</td> <td>' . $port_dst . '</td>
                 </tr>
             </tbody>
         </table>
