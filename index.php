@@ -18,7 +18,7 @@
  * v1.0 - 13 April 17 - initial version
  ******************************/
 error_reporting( E_ALL );
-// error_reporting( 0 );
+error_reporting( 0 );
 //include the config DB and API.
 include 'functions.php';
 include '/opt/ips-mikrotik-suricata/config.php';
